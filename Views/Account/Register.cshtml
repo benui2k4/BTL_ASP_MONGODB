@@ -1,0 +1,88 @@
+﻿@model ASP_MongoDB.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container">
+    <div class="login-form">
+        <h2 class="mb-4">Chào mừng bạn - Hãy tạo tài khoản mới ở đây!</h2>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <form asp-action="Register" asp-controller="Account" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>* Email</label>
+                        <input asp-for="Email" class="form-control" placeholder="Nhập địa chỉ email tại đây..." />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>* Họ và tên</label>
+                        <input asp-for="FullName" class="form-control" placeholder="Nhập họ tên của bạn tại đây..." />
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>* Tên đăng nhập</label>
+                        <input asp-for="Username" class="form-control" placeholder="Nhập tên đăng nhập của bạn tại đây..." />
+                        <span asp-validation-for="Username" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>* Địa chỉ</label>
+                        <input asp-for="Address" class="form-control" placeholder="Nhập địa chỉ của bạn tại đây..." />
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>* Mật khẩu</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Nhập mật khẩu của bạn tại đây..." />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>* Số điện thoại</label>
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Nhập số điện thoại của bạn tại đây..." />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+                </div>
+
+               
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>* Xác nhận mật khẩu</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu của bạn vừa nhập tại đây..." />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="Role" value="User" />
+
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
+            </div>
+
+            <div class="form-group text-center">
+                <p>
+                    Đã có tài khoản?
+                    <a asp-controller="Account" asp-action="Login">Đăng nhập tại đây</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

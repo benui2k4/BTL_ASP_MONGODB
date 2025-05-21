@@ -1,0 +1,40 @@
+﻿@model ASP_MongoDB.Models.Order
+@using ASP_MongoDB.Extension;
+
+<div class="container">
+    <div><strong>Họ tên:</strong> @Model.FullName</div>
+    <div><strong>Email:</strong> @Model.EmailAddress</div>
+    <div><strong>Địa chỉ:</strong> @Model.Address</div>
+    <div><strong>SĐT:</strong> @Model.Phone</div>
+    <div><strong>Ngày đặt:</strong> @Model.CreateAt.ToString("dd/MM/yyyy HH:mm")</div>
+    <div><strong>Trạng thái:</strong> @Model.Status.GetDisplayName()</div>
+
+
+<h3 class="mt-4">Danh sách sản phẩm đã đặt hàng</h3>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr class="text-center">
+                <th>Ảnh sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá mỗi sản phẩm</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr class="text-center">
+                    <td>
+                        <img src="@item.Image" alt="@item.ProductName" style="width:60px; height:60px; object-fit:cover; border-radius:4px;" />
+                    </td>
+                    <td class="text-start">@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td class="text-end">@String.Format("{0:N0} VNĐ", item.Price)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+</div>

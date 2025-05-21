@@ -1,0 +1,119 @@
+﻿@model ASP_MongoDB.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Chi tiết tài khoản";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">Thông tin tài khoản & người dùng</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3"><strong>Email:</strong></div>
+                <div class="col-md-9">@Model.Email</div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3"><strong>Họ tên:</strong></div>
+                <div class="col-md-9">@Model.FullName</div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3"><strong>Tên người dùng:</strong></div>
+                <div class="col-md-9">@Model.UserName</div>
+            </div>
+
+            <!-- Password Hash -->
+            <div class="row mt-2">
+                <div class="col-md-3"><strong>Password Hash:</strong></div>
+                <div class="col-md-9">
+                    <span id="password-hash" style="display: none;">
+                        @Model.PasswordHash
+                    </span>
+                    <span id="password-hash-hidden">
+                        ************
+                    </span>
+                    <span id="eye-icon" style="cursor: pointer;">
+                        <i class="fas fa-eye" onclick="togglePassword()"></i>
+                    </span>
+
+                    <a href="@Url.Action("ChangePassword", "AccountManager", new { id = Model.Id })" class="btn btn-warning">Đổi mật khẩu</a>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-3"><strong>Địa chỉ:</strong></div>
+                <div class="col-md-9">@Model.Address</div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3"><strong>Số điện thoại:</strong></div>
+                <div class="col-md-9">@Model.PhoneNumber</div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3"><strong>Vai trò:</strong></div>
+                <div class="col-md-9">
+                    @foreach (var role in ViewBag.Roles)
+                    {
+                        <span class="badge badge-info">@role</span>
+                    }
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3"><strong>Ngày tạo tài khoản:</strong></div>
+                <div class="col-md-9">@Model.CreatedOn.ToString("dd/MM/yyyy HH:mm:ss")</div>
+            </div>
+
+            <!-- Nút Đổi Mật Khẩu -->
+           
+               
+           
+
+            <div class="mt-4">
+                <a href="@Url.Action("Index", "AccountManager")" class="btn btn-secondary btn-lg">Quay lại</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function togglePassword() {
+        var passwordHash = document.getElementById("password-hash");
+        var passwordHashHidden = document.getElementById("password-hash-hidden");
+        var eyeIcon = document.getElementById("eye-icon").getElementsByTagName("i")[0];
+
+        // Kiểm tra nếu mật khẩu đang ẩn
+        if (passwordHash.style.display === "none") {
+            passwordHash.style.display = "inline"; // Hiện mật khẩu
+            passwordHashHidden.style.display = "none"; // Ẩn dấu sao
+            eyeIcon.classList.remove("fa-eye"); // Thay đổi icon
+            eyeIcon.classList.add("fa-eye-slash"); // Thành icon mắt có gạch chéo
+        } else {
+            passwordHash.style.display = "none"; // Ẩn mật khẩu
+            passwordHashHidden.style.display = "inline"; // Hiện dấu sao
+            eyeIcon.classList.remove("fa-eye-slash"); // Thay đổi icon
+            eyeIcon.classList.add("fa-eye"); // Thành icon mắt bình thường
+        }
+    }
+</script>

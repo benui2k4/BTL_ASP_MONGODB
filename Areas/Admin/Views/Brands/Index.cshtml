@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ASP_MongoDB.Models.Brands>
+
+@{
+    ViewData["Title"] = "Thương hiệu sản phẩm";
+    Paginate pager = new Paginate();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between mb-3">
+        <div>
+            <a href="@Url.Action("Create", "Brands", new { area = "Admin" })" class="btn btn-success">
+                <i class="fa fa-plus"></i> Thêm Mới
+            </a>
+            <a href="@Url.Action("Index", "Brands", new { area = "Admin" })" class="btn btn-secondary">
+                <i class="fa fa-sync-alt"></i> Tải lại
+            </a>
+        </div>
+    </div>
+
+
+    <form asp-action="Index" method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" class="form-control" placeholder="Tìm theo tên thương hiệu...">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Tìm kiếm</button>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrEmpty(ViewBag.SearchTerm as string))
+    {
+        <p class="text-muted">Kết quả tìm kiếm cho: <strong>@ViewBag.SearchTerm</strong></p>
+    }
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên thương hiệu</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var brand in Model)
+                {
+                    <tr>
+                        <td>@brand.BrandId</td>
+                        <td>@brand.BrandName</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Brands", new { area = "Admin", id = brand.BrandId })" class="btn btn-primary btn-sm">
+                                <i class="fa fa-edit"></i> Sửa
+                            </a>
+                            <a href="@Url.Action("Delete", "Brands", new { area = "Admin", id = brand.BrandId })" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa thương hiệu này không?');">
+                                <i class="fa fa-trash"></i> Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="text-center text-muted">
+                        Không có dữ liệu<br />
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+</div>
+
+<partial name="_paging" model="@pager" />

@@ -1,0 +1,143 @@
+﻿@{
+    ViewData["Title"] = "Trang quản trị";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body text-center">
+                    <h5 class="card-title">📁 Tổng số danh mục</h5>
+                    <h3>@ViewBag.CategoryCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title">🏷️ Tổng số thương hiệu</h5>
+                    <h3>@ViewBag.BrandCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body text-center">
+                    <h5 class="card-title">📦 Tổng số sản phẩm</h5>
+                    <h3>@ViewBag.ProductCount</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body text-center">
+                    <h5 class="card-title">👥 Tổng số tài khoản</h5>
+                    <h3>@ViewBag.UserCount</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            📊 Thống kê tổng quan
+        </div>
+        <div class="card-body">
+            <div class="row text-center">
+                <div class="col-md-4 mb-3">
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = ['Danh mục', 'Thương hiệu', 'Sản phẩm', 'Tài khoản'];
+        const dataValues = [
+        @Html.Raw(ViewBag.CategoryCount),
+        @Html.Raw(ViewBag.BrandCount),
+        @Html.Raw(ViewBag.ProductCount),
+        @Html.Raw(ViewBag.UserCount)
+        ];
+
+        const datasetConfig = {
+            label: 'Số lượng',
+            data: dataValues,
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(255, 206, 86, 0.6)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        };
+
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        new Chart(document.getElementById('pieChart'), {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [datasetConfig]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [datasetConfig]
+            },
+            options: chartOptions
+        });
+
+        new Chart(document.getElementById('lineChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    ...datasetConfig,
+                    fill: false,
+                    tension: 0.3,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+                }]
+            },
+            options: chartOptions
+        });
+    </script>
+}

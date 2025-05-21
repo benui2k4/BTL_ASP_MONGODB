@@ -1,0 +1,38 @@
+﻿@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Trang đăng nhập";
+}
+
+<div class="container">
+    <div class="login-form">
+        <h2>Chào mừng bạn - Đăng nhập vào tài khoản của bạn ở đây!</h2>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div class="form-group">
+                <label>* Địa chỉ email của bạn : </label>
+                <input asp-for="Email" class="form-control" placeholder="Nhập địa chỉ email của bạn tại đây..." />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>* Mật khẩu : </label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Nhập mật khẩu của bạn tại đây..." />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Đăng nhập</button>
+            </div>
+
+            <div class="form-group">
+                <p>
+                    Chưa có tài khoản?
+                    <a asp-controller="Account" asp-action="Register">Tạo tài khoản ở đây</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+

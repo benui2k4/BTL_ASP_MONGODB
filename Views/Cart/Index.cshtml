@@ -1,0 +1,98 @@
+﻿@model ASP_MongoDB.Models.CartViewModel
+
+<section id="cart_items">
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Ảnh sản phẩm</td>
+                        <td class="name">Tên sản phẩm</td>
+                        <td class="price">Giá sản phẩm</td>
+                        <td class="quantity">Số lượng</td>
+                        <td class="total">Tổng số</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.CartItems != null && Model.CartItems.Count > 0)
+                    {
+                        foreach (var item in Model.CartItems)
+                        {
+                                    <tr>
+                                        <td>
+                                            <img src="@item.Image" width="100" alt="@item.ProductName"/>
+                                        </td>
+                                        <td class="cart_description">
+                                            <p>@item.ProductName</p>
+                                        </td>
+                                        <td class="cart_price">
+                                         <p>@string.Format("{0:N0} VNĐ", item.Price)</p>
+                                        </td>
+                                        <td align="center">
+                                            <table cellspacing="4">
+                                                <tr>
+                                                    <td>
+                                                        <form method="post" asp-controller="Cart" asp-action="Decrease">
+                                                            <input type="hidden" name="productId" value="@item.ProductId" />
+                                                            <button type="submit">-</button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="quantity" value="@item.Quantity" size="1" readonly style="text-align: center;" />
+                                                    </td>
+                                                    <td>
+                                                        <form method="post" asp-controller="Cart" asp-action="Increase">
+                                                            <input type="hidden" name="productId" value="@item.ProductId" />
+                                                            <button type="submit">+</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+
+                                        <td class="cart_total">
+                                        <p class="cart_total_price">@string.Format("{0:N0} VNĐ", item.Price)</p>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="Remove" asp-route-productId="@item.ProductId">Delete</a>
+                                        </td>
+                                    </tr>
+                        }
+                            <tr>
+                                <td colspan="5" style="text-align:right;">
+                                    <b>Tổng tiền:</b>
+                                       <b class="cart_total_price">@string.Format("{0:N0} VNĐ", Model.GrandTotal)</b>
+                                </td>
+                                <td>
+                                    <a class="btn btn-warning btn-sm" asp-controller="Cart" asp-action="Clear">Xóa hết giỏ hàng</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="text-align:right;">
+                                @if (User.Identity != null && User.Identity.IsAuthenticated && Model.CartItems.Count > 0)
+                                {
+                                            <a class="btn btn-success btn-sm" asp-controller="Checkout" asp-action="Checkout">Thanh toán</a>
+                                }
+                                else
+                                {
+                                            <span>
+                                                Bạn cần <a asp-controller="Account" asp-action="Login">Đăng Nhập</a> và phải có ít nhất một sản phẩm trong giỏ hàng để thanh toán!
+                                            </span>
+                                }
+                                </td>
+                                </tr>
+                        }
+                        else
+                        {
+                                <tr>
+                                <td colspan="6" style="text-align: center;" class="text text-danger">
+                                        <h6>Bạn chưa thêm gì vào giỏ hàng</h6>
+                                    </td>
+                                </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    
+</section>
